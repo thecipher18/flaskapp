@@ -40,6 +40,10 @@ get_model()
 print("4")
 # global graph 
 # graph = tf.compat.v1.get_default_graph()
+
+def max_value(inputlist):
+    return max([sublist[-1] for sublist in inputlist])
+
 CATEGORIES = ["apple","banana", "bee", "car"]
 
 @app.route('/predict', methods=["POST"])
@@ -58,8 +62,8 @@ def predict():
     prediction = model.predict(processed_image).tolist()
     print("predicted")
     response = {
-        'result': CATEGORIES[prediction.index(max(prediction))],
-        'prediction': prediction
+        'result': CATEGORIES[prediction[0].index(max(prediction[0]))],
+        'prediction': max(prediction[0])
     }
     return jsonify(response)
 
