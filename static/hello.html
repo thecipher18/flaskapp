@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="name-input">
+    <button id="name-button">Submit</button>
+    <p id="greeting"></p>
+    
+    <script>
+        $('#name-button').click(function(event) {
+            event.preventDefault();
+            let message= {
+                name: $('#name-input').val()
+            }
+            $.post('http://localhost:5000/hello', JSON.stringify(message),function(response) {
+                $('#greeting').text(response.greeting);
+                console.log(response);
+            });
+        });
+    </script>
+</body>
+</html>

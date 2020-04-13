@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" id="image-selector" />
+    <button id="predict-button">Predict</button>
+    <p>Predictions:</p>
+    <p><span id="predictname"></span></p>
+
+    <script>
+      let base64Image;
+      $("#image-selector").change(function() {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+          let dataURL = reader.result;
+          $("#selected-image").attr("src", dataURL);
+          base64Image = dataURL.replace("data:image/jpeg;base64,", "");
+          base64Image += "==";
+          console.log(base64Image, base64Image.length);
+        };
+        reader.readAsDataURL($("#image-selector")[0].files[0]);
+        $("predictname").text("");
+      });
+
+      $("#predict-button").click(function(event) {
+        let message = {
+          image: base64Image
+        };
+        console.log({ message });
+        $.post(
+          "http://localhost:5000/predict",
+          JSON.stringify(message),
+          function(response) {
+            // $("#predictname").text(response.prediction.toString());
+            console.log(document.getElementById("predictname"));
+            document.getElementById("predictname").innerHTML =
+              response.prediction;
+            console.log(response);
+            console.log(response.prediction);
+          }
+        );
+      });
+    </script>
+  </body>
+</html>
