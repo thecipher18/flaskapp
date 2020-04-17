@@ -30,19 +30,21 @@
 
       $("#predict-button").click(function(event) {
         let message = {
-          image: base64Image
+          image: base64Image,
+          time: 10,
+          answer: "apple"
         };
         console.log({ message });
         $.post(
-          "http://localhost:5000/predict",
+          "http://localhost:5000/single",
           JSON.stringify(message),
           function(response) {
             // $("#predictname").text(response.prediction.toString());
             console.log(document.getElementById("predictname"));
             document.getElementById("predictname").innerHTML =
-              response.result;
+              response.modelAnswer;
             console.log(response);
-            console.log(response.prediction);
+            console.log(response.score);
           }
         );
       });
