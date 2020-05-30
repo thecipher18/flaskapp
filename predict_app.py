@@ -35,12 +35,14 @@ def preprocess_image(image, target_size):
         image = image.convert("L")
     print("7")
     image = image.resize(target_size)
+    print("image array:", image)
     print("8", type(image))
     image = img_to_array(image)
     print("9", image.shape)
     image = np.expand_dims(image, axis = 0)
-    image2 = np.expand_dims(image, 1)
-    print("10", image.shape," image2: ", image2.shape)
+    print("image shape after expand dims", image.shape)
+    # image2 = np.expand_dims(image, 1)
+    # print("10", image.shape," image2: ", image2.shape)
     return image
 
 print(" Loading Keras model...")
