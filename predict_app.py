@@ -33,7 +33,7 @@ def preprocess_image(image, target_size):
     print("3")
     if image.mode == "RGB":
         image = image.convert("L")
-    print("7")
+    print(image)
     image = image.resize(target_size)
     print("image array:", image)
     print("8", type(image))
@@ -54,7 +54,9 @@ print("4")
 def max_value(inputlist):
     return max([sublist[-1] for sublist in inputlist])
 
-CATEGORIES = ["apple","banana", "bee", "car"]
+CATEGORIES = ["airplane","apple","axe","banana","baseball","bee","bus","car","diamond",
+              "grapes","grass","hand","pineapple","tornado"]
+
 
 @app.route('/predict', methods=["POST"])
 def predict():
@@ -100,6 +102,7 @@ def single():
     model = tf.keras.models.load_model('kerasmodel.h5')
     prediction = model.predict(processed_image).tolist()
     print("predicted")
+    print(prediction)
 
     time = message["time"]
     answer = message["answer"]
