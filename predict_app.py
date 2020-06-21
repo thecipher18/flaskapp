@@ -186,7 +186,7 @@ def single():
 
     index = CATEGORIES.index(answer)
     modelacc = prediction[0][index]
-    myScore = time * modelacc
+    myScore = time / modelacc #inverse efficiency score
 
     response = {
         'modelAnswer': CATEGORIES[prediction[0].index(max(prediction[0]))],
