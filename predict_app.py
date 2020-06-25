@@ -130,8 +130,8 @@ print("4")
 def max_value(inputlist):
     return max([sublist[-1] for sublist in inputlist])
 
-CATEGORIES = ["airplane","apple","axe","banana","baseball","bee","bus","car","diamond",
-              "grapes","grass","hand","pineapple","tornado"]
+CATEGORIES = ["apple","banana","baseball","bee","camera","car","clock","diamond","hand","tornado"]
+
 
 
 @app.route('/predict', methods=["POST"])
