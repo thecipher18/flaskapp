@@ -14,6 +14,10 @@ from flask import jsonify
 from flask import Flask
 from flask_mysqldb import MySQL
 from cv2 import cv2
+import matplotlib.pyplot as plt
+import matplotlib
+import random
+
 app = Flask(__name__)
 
 # app.config['MYSQL_HOST'] = 'localhost'
@@ -106,6 +110,12 @@ def preprocess_image(image):
         image = image.convert("L")
     print(image)
     cv_image = np.array(image)
+
+    message = request.get_json(force=True)
+    answer = message["answer"]
+    name = answer+ str(random.randint(1,999))+ '.jpg'
+    plt.imsave('./images/'+answer+'/'+name, cv_image, format='jpg')
+
     print(cv_image)
     img_array = crop(cv_image)
     new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE), interpolation = cv2.INTER_AREA)
@@ -182,7 +192,6 @@ def single():
 
     time = message["time"]
     answer = message["answer"]
-
 
     index = CATEGORIES.index(answer)
     modelacc = prediction[0][index]
