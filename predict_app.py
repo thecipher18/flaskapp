@@ -196,7 +196,7 @@ def single():
     index = CATEGORIES.index(answer)
     modelacc = prediction[0][index]
     myScore = time / modelacc #inverse efficiency score
-    if answer in CATEGORIES:
+    if answer not in CATEGORIES:
         myScore = 0
     response = {
         'modelAnswer': CATEGORIES[prediction[0].index(max(prediction[0]))],
