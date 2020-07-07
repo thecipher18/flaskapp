@@ -203,7 +203,16 @@ def single():
 
     index = CATEGORIES.index(answer)
     modelacc = prediction[0][index]
-    myScore = int(time / (1-modelacc)) #inverse efficiency score
+    if 0.95 > modelacc > 0.3:
+        if time < 10:
+            myScore = int(modelacc*100) + 5
+        if 10 < time < 20:
+            myScore = int(modelacc*100) + 2
+        else:
+            myScore = int(modelacc*100)
+    else:
+        myScore = int(modelacc*100)
+    # myScore = int(time / (1-modelacc)) #inverse efficiency score
     if answer not in CATEGORIES:
         myScore = 0
     response = {
