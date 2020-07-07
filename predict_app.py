@@ -17,6 +17,7 @@ from cv2 import cv2
 import matplotlib.pyplot as plt
 import matplotlib
 import random
+import os
 
 app = Flask(__name__)
 
@@ -114,7 +115,14 @@ def preprocess_image(image):
     message = request.get_json(force=True)
     answer = message["answer"]
     name = answer+ str(random.randint(1,999))+ '.jpg'
-    plt.imsave('./images/'+answer+'/'+name, cv_image, format='jpg')
+    dirName = './images/'+answer+'/'
+    if not os.path.exists(dirName):
+        os.makedirs(dirName)
+        plt.imsave(dirName+name, cv_image, format='jpg')
+    else:    
+        plt.imsave(dirName+name, cv_image, format='jpg')
+        
+    
 
     print(cv_image)
     img_array = crop(cv_image)
@@ -195,7 +203,7 @@ def single():
 
     index = CATEGORIES.index(answer)
     modelacc = prediction[0][index]
-    myScore = time / modelacc #inverse efficiency score
+    myScore = int(time / modelacc) #inverse efficiency score
     if answer not in CATEGORIES:
         myScore = 0
     response = {
