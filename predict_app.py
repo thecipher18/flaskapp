@@ -21,17 +21,11 @@ import os
 
 app = Flask(__name__)
 
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'root'
-# app.config['MYSQL_PASSWORD'] = 'root'
-# app.config['MYSQL_DB'] = 'MyDB'
-
 mysql = MySQL(app)
 
 def get_model():
     global model 
     model = tf.keras.models.load_model('kerasmodel.h5')
-    print("2")
     print(" * Model loaded!")
 
 
@@ -105,11 +99,9 @@ def crop(data):
     return crop_array
 
 def preprocess_image(image):
-    print("3")
     IMG_SIZE = 28 
     if image.mode == "RGB":
         image = image.convert("L")
-    print(image)
     cv_image = np.array(image)
 
     message = request.get_json(force=True)
@@ -122,9 +114,6 @@ def preprocess_image(image):
     else:    
         plt.imsave(dirName+name, cv_image, format='jpg')
         
-    
-
-    print(cv_image)
     img_array = crop(cv_image)
     new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE), interpolation = cv2.INTER_AREA)
     # image = image.resize(target_size)
@@ -141,7 +130,6 @@ def preprocess_image(image):
 
 print(" Loading Keras model...")
 get_model()
-print("4")
 # global graph 
 # graph = tf.compat.v1.get_default_graph()
 
@@ -154,19 +142,15 @@ CATEGORIES = ["apple","banana","baseball","bee","camera","car","clock","diamond"
 
 @app.route('/predict', methods=["POST"])
 def predict():
-    print("1")
     message = request.get_json(force=True)
     encoded = message['image']
     decoded = base64.b64decode(encoded)
     image = Image.open(io.BytesIO(decoded))
-    print(type(image))
     processed_image = preprocess_image(image)
-    print("here")
     # model.predict():
     # with graph.as_default():
     model = tf.keras.models.load_model('kerasmodel.h5')
     prediction = model.predict(processed_image).tolist()
-    print("predicted")
 
     response = {
         'result': CATEGORIES[prediction[0].index(max(prediction[0]))],
@@ -195,8 +179,6 @@ def single():
     # with graph.as_default():
     model = tf.keras.models.load_model('kerasmodel.h5')
     prediction = model.predict(processed_image).tolist()
-    print("predicted")
-    print(prediction)
 
     time = message["time"]
     answer = message["answer"]
