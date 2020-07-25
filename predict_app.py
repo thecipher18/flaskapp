@@ -106,6 +106,7 @@ def preprocess_image(image):
 
     message = request.get_json(force=True)
     answer = message["answer"]
+    user = message["user"]
     name = answer+ str(random.randint(1,999))+ '.jpg'
     dirName = './images/'+answer+'/'
     if not os.path.exists(dirName):
@@ -115,7 +116,22 @@ def preprocess_image(image):
         plt.imsave(dirName+name, cv_image, format='jpg')
         
     img_array = crop(cv_image)
+    direc = './static/images/'
+    step1 = user +"1"+ '.jpg'
+    if not os.path.exists(direc):
+        os.makedirs(direc)
+        plt.imsave(direc+step1, img_array, format='jpg')
+    else:    
+        plt.imsave(direc+step1, img_array, format='jpg')
+
+
     new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE), interpolation = cv2.INTER_AREA)
+    step2 = user +"2"+ '.jpg'
+    if not os.path.exists(direc):
+        os.makedirs(direc)
+        plt.imsave(direc+step2, new_array, format='jpg')
+    else:    
+        plt.imsave(direc+step2, new_array, format='jpg')
     # image = image.resize(target_size)
     # print("image array:", image)
     # print("8", type(image))
