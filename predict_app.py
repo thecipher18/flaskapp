@@ -12,7 +12,6 @@ from keras.preprocessing.image import img_to_array
 from flask import request
 from flask import jsonify
 from flask import Flask
-from flask_mysqldb import MySQL
 from cv2 import cv2
 import matplotlib.pyplot as plt
 import matplotlib
@@ -21,7 +20,6 @@ import os
 
 app = Flask(__name__)
 
-mysql = MySQL(app)
 
 def get_model():
     global model 
@@ -215,7 +213,7 @@ def single():
         myScore = 0
     response = {
         'modelAnswer': CATEGORIES[prediction[0].index(max(prediction[0]))],
-        'score': myScore,
+        'myScore': myScore,
     }
     return jsonify(response)
 
